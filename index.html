@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rapid Eats - Delivery & PWA</title>
+
+  <!-- PWA Manifest & Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ff4757">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- CSS Externo -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-banner">
+    <span>🔥 Frete Grátis acima de R$ 50 | Cupom: <strong>RAPID10</strong></span>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="nav-container">
+      <div class="logo">
+        <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
+        <div class="logo-text">Rapid<span>Eats</span></div>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn-icon" id="themeToggle" title="Mudar Tema">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="pwa-install-btn" id="installPwaBtn">
+          <i class="fa-solid fa-download"></i> Instalar App
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    
+    <!-- Hero Banner -->
+    <section class="hero-card">
+      <div class="hero-content">
+        <span class="status-badge"><i class="fa-solid fa-circle"></i> Aberto Agora</span>
+        <h1>O sabor que você ama, no tempo que você precisa.⚡</h1>
+        <p>Entrega rápida em 20-35 min • Taxa fixa R$ 5,00</p>
+      </div>
+    </section>
+
+    <!-- Search & Filters -->
+    <section class="controls-section">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="O que você quer comer hoje?">
+      </div>
+
+      <div class="categories-scroll" id="categoriesContainer">
+        <button class="cat-pill active" data-category="todos"><i class="fa-solid fa-utensils"></i> Todos</button>
+        <button class="cat-pill" data-category="hamburgueres"><i class="fa-solid fa-burger"></i> Burgers</button>
+        <button class="cat-pill" data-category="pizzas"><i class="fa-solid fa-pizza-slice"></i> Pizzas</button>
+        <button class="cat-pill" data-category="bebidas"><i class="fa-solid fa-wine-bottle"></i> Bebidas</button>
+        <button class="cat-pill" data-category="sobremesas"><i class="fa-solid fa-ice-cream"></i> Sobremesas</button>
+      </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="products-grid" id="productsGrid"></section>
+
+  </main>
+
+  <!-- Bottom Floating Bar -->
+  <div class="bottom-cart-bar" id="bottomCartBar">
+    <div class="cart-info">
+      <span class="cart-count-badge" id="bottomCartCount">0</span>
+      <div class="cart-text">
+        <small>Total com entrega</small>
+        <strong id="bottomCartTotal">R$ 0,00</strong>
+      </div>
+    </div>
+    <button class="btn-checkout-bar" id="openCartBtn">
+      Ver Carrinho <i class="fa-solid fa-arrow-right"></i>
+    </button>
+  </div>
+
+  <!-- Cart Drawer / Modal -->
+  <div class="drawer-overlay" id="cartDrawerOverlay">
+    <div class="cart-drawer">
+      
+      <div class="drawer-header">
+        <h2><i class="fa-solid fa-bag-shopping"></i> Seu Pedido</h2>
+        <button class="btn-close-drawer" id="closeCartBtn">&times;</button>
+      </div>
+
+      <!-- Free Shipping Tracker -->
+      <div class="shipping-tracker">
+        <div class="tracker-text" id="trackerText">Faltam R$ 50,00 para Frete Grátis!</div>
+        <div class="tracker-bar"><div class="tracker-fill" id="trackerFill"></div></div>
+      </div>
+
+      <div class="drawer-body" id="cartItemsContainer"></div>
+
+      <div class="drawer-footer">
+        <div class="coupon-group">
+          <input type="text" id="couponInput" placeholder="Possui cupom?">
+          <button id="applyCouponBtn">Aplicar</button>
+        </div>
+
+        <div class="summary-details">
+          <div class="row"><span>Subtotal:</span><span id="subtotalVal">R$ 0,00</span></div>
+          <div class="row"><span>Taxa de Entrega:</span><span id="deliveryVal">R$ 5,00</span></div>
+          <div class="row discount" id="discountRow" style="display:none;"><span>Desconto:</span><span id="discountVal">-R$ 0,00</span></div>
+          <div class="row total"><span>Total:</span><span id="totalVal">R$ 5,00</span></div>
+        </div>
+
+        <div class="form-inputs">
+          <input type="text" id="clientName" placeholder="Seu Nome Completo">
+          <input type="text" id="clientAddress" placeholder="Endereço de Entrega (Rua, Nº, Bairro)">
+          <select id="paymentMethod">
+            <option value="Cartão de Crédito/Débito">Cartão de Crédito/Débito</option>
+            <option value="Pix">Pix</option>
+            <option value="Dinheiro">Dinheiro</option>
+          </select>
+        </div>
+
+        <!-- Botão Finalizar Compra -->
+        <button class="btn-checkout-final" id="sendOrderBtn">
+          Finalizar Compra
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toastNotification">Item adicionado!</div>
+
+  <!-- JavaScript Externo -->
+  <script src="js/app.js"></script>
+</body>
+</html>
